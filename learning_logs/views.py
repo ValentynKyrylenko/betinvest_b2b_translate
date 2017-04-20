@@ -8,6 +8,9 @@ from .forms import TopicForm
 from .forms import EntryForm
 # Create your views here.
 
+# Counting objects
+from django.db.models import Count
+
 
 def index(request):
     '''Home page for learning_log'''
@@ -16,10 +19,12 @@ def index(request):
 
 @login_required
 def topics(request):
-    '''Show all topics'''
-    topics = Topic.objects.filter(owner=request.user).order_by('date_added')
+    'Show all topics'''
+    topics = Topic.objects.annotate(n_ent=Count('entry')).filter(owner=request.user).order_by('date_added')
     #topics = Topic.objects.order_by('date_added')
-    context = {'topics': topics}
+    # Total number of entries
+    total_entries = Entry.objects.count()
+    context = {'topics': topics, 'total_entries': total_entries}
     return render(request, 'learning_logs/topics.html', context)
 
 
@@ -93,3 +98,12 @@ def edit_entry(request, entry_id):
                                                 args=[topic.id]))
     context = {'entry': entry, 'topic': topic, 'form': form}
     return render(request, 'learning_logs/edit_entry.html', context)
+
+
+@login_required
+def delete_entry(request, delete_id):
+   # delete an object and send a confirmation response
+    item = Entry.objects.get(id=delete_id)
+    topic = item.topic
+    item.delete()
+    return HttpResponseRedirect(reverse('learning_logs:topic', args=[topic.id]))

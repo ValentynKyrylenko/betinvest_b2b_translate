@@ -5,12 +5,24 @@
 {% endblock header %}
 
 {% block content %}
+
+<h3>There are {{ total_entries }} entries added.</h3>
+
   <ul>
        {% for topic in topics %}
-  <li><h3><a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a></h3></li>
-    {% empty %}
-      <li>No topics have been added yet.</li>
-    {% endfor %}
+              <li>
+                <h3><a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>
+                {% if topic.n_ent > 0 %}
+                    <small><span class="label label-warning">{{ topic.n_ent}}</span></small></h3>
+                {% endif %}
+
+
+              </li>
+                {% empty %}
+                <li>No topics have been added yet.</li>
+       {% endfor %}
   </ul>
   <h3><a href="{% url 'learning_logs:new_topic' %}">Add new topic</h3>
+
+
 {% endblock content %}
