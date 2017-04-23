@@ -140,6 +140,9 @@ if os.getcwd() == '/app':
     DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
     # Honor the 'X-Forwarded-Proto' header for request.is_secure().
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    # Allow only Heroku to host the project.
+    ALLOWED_HOSTS = ['betinvestb2b.herokuapp.com']
+    DEBUG = False
     # Allow all host headers.
     ALLOWED_HOSTS = ['*']
     # Static asset configuration
