@@ -129,17 +129,13 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
-)
+STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, 'static'),)
 
 # My settings Django has to know wherу loging page is (for decorators)
 LOGIN_URL = '/users/login/'
 
 # Settings for django-bootstrap3
-BOOTSTRAP3 = {
-    'include_jquery': True,
-}
+BOOTSTRAP3 = {'include_jquery': True, }
 
 # Heroku settings
 if os.getcwd() == '/app':
