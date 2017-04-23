@@ -62,7 +62,6 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
-       # 'DIRS': [os.path.join(BASE_DIR, 'learning_log/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -121,21 +120,19 @@ USE_L10N = True
 
 USE_TZ = True
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-STATIC_URL = '/static/'
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-# Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, 'static'),)
+STATIC_URL = '/static/'
 
 # My settings Django has to know wherу loging page is (for decorators)
 LOGIN_URL = '/users/login/'
 
 # Settings for django-bootstrap3
-BOOTSTRAP3 = {'include_jquery': True, }
+BOOTSTRAP3 = {
+    'include_jquery': True,
+}
 
 # Heroku settings
 if os.getcwd() == '/app':
@@ -144,7 +141,7 @@ if os.getcwd() == '/app':
     # Honor the 'X-Forwarded-Proto' header for request.is_secure().
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     # Allow only Heroku to host the project.
-    ALLOWED_HOSTS = ['betinvestb2b.herokuapp.com']
+    ALLOWED_HOSTS = ['learning-log.herokuapp.com']
     DEBUG = False
     # Allow all host headers.
     ALLOWED_HOSTS = ['*']
