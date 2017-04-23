@@ -14,14 +14,17 @@ from django.db.models import Count
 
 def index(request):
     '''Home page for learning_log'''
-    return render(request, 'learning_logs/index.html')
+    logged = request.user
+    context = {'logged': logged}
+    return render(request, 'learning_logs/index.html', context)
 
 
 @login_required
 def topics(request):
-    'Show all topics'''
-    topics = Topic.objects.annotate(n_ent=Count('entry')).filter(owner=request.user).order_by('date_added')
-    #topics = Topic.objects.order_by('date_added')
+    # Show only the topics created by user
+     #topics = Topic.objects.annotate(n_ent=Count('entry')).filter(owner=request.user).order_by('text')
+    topics = Topic.objects.annotate(n_ent=Count('entry')).order_by('text')
+    # topics = Topic.objects.order_by('date_added')
     # Total number of entries
     total_entries = Entry.objects.count()
     context = {'topics': topics, 'total_entries': total_entries}
@@ -107,3 +110,12 @@ def delete_entry(request, delete_id):
     topic = item.topic
     item.delete()
     return HttpResponseRedirect(reverse('learning_logs:topic', args=[topic.id]))
+
+
+@login_required
+def delete_topic(request, delete_id):
+   # delete an object and send a confirmation response
+    item = Topic.objects.get(id=delete_id)
+    item.delete()
+
+    return HttpResponseRedirect(reverse('learning_logs:topics'))

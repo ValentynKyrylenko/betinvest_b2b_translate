@@ -5,9 +5,19 @@
        <meta charset="utf-8">
        <meta http-equiv="X-UA-Compatible" content="IE=edge">
        <meta name="viewport" content="width=device-width, initial-scale=1">
-       <title>Learning Log</title>
- {% bootstrap_css %}
-{% bootstrap_javascript %}
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.2.0/jquery-confirm.min.css">
+       <title>BetInvest Translate</title>
+       {% bootstrap_css %}
+       {% bootstrap_javascript %}
+       {% load static %}
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+     <link rel="stylesheet" href="/static/css/main.css">
+
+      <script src="/static/js/main.js"></script>
+
 </head>
 
 <body>
@@ -20,18 +30,20 @@
               aria-expanded="false" aria-controls="navbar">
           </button>
           <a class="navbar-brand" href="{% url 'learning_logs:index' %}">
-              Learning Log</a>
+              BetInvest Translate</a>
 </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="{% url 'learning_logs:topics' %}">Topics</a></li>
+            <li><a href="{% url 'learning_logs:topics' %}">Sports</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
               <li><a>Hello, {{ user.username }}.</a></li>
               <li><a href="{% url 'users:logout' %}">log out</a></li>
             {% else %}
+                   {% if user.username == 'll_admin' %}
               <li><a href="{% url 'users:register' %}">register</a></li>
+                   {% endif %}
               <li><a href="{% url 'users:login' %}">log in</a></li>
             {% endif %}
           </ul>

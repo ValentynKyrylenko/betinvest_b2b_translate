@@ -1,29 +1,35 @@
 {% extends 'learning_logs/base.html' %}
+{# Load the tag library #}
+{% load bootstrap3 %}
+
 
 {% block header %}
-<h2>{{ topic }}</h2>
+<h3>Sport: {{ topic }}</h3>
 {% endblock header %}
 
 
 {% block content %}
   <p>
-    <a href="{% url 'learning_logs:new_entry' topic.id %}">add new entry</a>
+    {% buttons %}
+    <a href="{% url 'learning_logs:new_entry' topic.id %}" class="btn btn-primary" role = 'button'>{% bootstrap_icon "pushpin" %} add entry</a>
+    {% endbuttons %}
   </p>
   {% for entry in entries %}
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3>
-          {{ entry.date_added|date:'M d, Y H:i' }}
-          <small>
-            <a href="{% url 'learning_logs:edit_entry' entry.id %}">edit entry</a> <a href="{% url 'learning_logs:delete_entry' entry.id %}" name="remove_levels">delete entry</a>
-          </small>
+        <h4>Added: {{ entry.date_added|date:'M d, Y H:i' }}</h4>
+      {% buttons %}
+            <a href="{% url 'learning_logs:edit_entry' entry.id %}" class="btn btn-success" role = 'button'>{% bootstrap_icon "pencil" %} edit entry </a>
+            <a href="{% url 'learning_logs:delete_entry' entry.id %}" class="btn btn-danger delete" role = 'button' data-confirm="Are you sure to delete this item?" >{% bootstrap_icon "remove" %} delete entry </a>
+      {% endbuttons %}
 
-        </h3>
-      </div>
+    </div>
       <div class="panel-body">
+
         {{ entry.text|linebreaks }}
       </div>
     </div> <!-- panel -->
+
     {% empty %}
     There are no entries for this topic yet.
 
@@ -31,5 +37,22 @@
 
   {% endfor %}
 
+
+
+<script type="text/javascript">
+  var deleteLinks = document.querySelectorAll('.delete');
+
+for (var i = 0; i < deleteLinks.length; i++) {
+  deleteLinks[i].addEventListener('click', function(event) {
+      event.preventDefault();
+
+      var choice = confirm(this.getAttribute('data-confirm'));
+
+      if (choice) {
+        window.location.href = this.getAttribute('href');
+      }
+  });
+}
+</script>
 
 {% endblock content %}

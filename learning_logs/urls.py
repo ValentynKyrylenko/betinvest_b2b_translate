@@ -17,4 +17,6 @@ urlpatterns = [
     url(r'^edit_entry/(?P<entry_id>\d+)/$', views.edit_entry, name='edit_entry'),
     # Page for deleting an entry
     url(r'^delete_entry/(?P<delete_id>\d+)/$', views.delete_entry, name='delete_entry'),
+    # Delete Topic
+    url(r'^delete_topic/(?P<delete_id>\d+)/$', views.delete_topic, name='delete_topic'),
 ]

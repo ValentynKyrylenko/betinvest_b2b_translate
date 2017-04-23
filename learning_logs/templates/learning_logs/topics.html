@@ -1,28 +1,50 @@
 {% extends "learning_logs/base.html" %}
-
+{% load bootstrap3 %}
 {% block header %}
-  <h1>Topics</h1>
+  <h3>List of all Sports</h3>
 {% endblock header %}
 
 {% block content %}
 
-<h3>There are {{ total_entries }} entries added.</h3>
-
-  <ul>
-       {% for topic in topics %}
-              <li>
-                <h3><a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>
+<h4>There are {{ total_entries }} entries added.</h4>
+<table class="table-condensed">
+  <tbody>
+    {% for topic in topics %}
+       <tr>
+         <td>
+               <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>
                 {% if topic.n_ent > 0 %}
-                    <small><span class="label label-warning">{{ topic.n_ent}}</span></small></h3>
+                    <small><span class="label label-danger">{{ topic.n_ent}}</span></small>
                 {% endif %}
-
-
-              </li>
-                {% empty %}
+          </td>
+         <td>
+                <small><a href="{% url 'learning_logs:delete_topic' topic.id%}" class="red delete" data-confirm="You are going to delete a Type of Sport! Continue?">{% bootstrap_icon "remove" %} </a></small>
+         </td>
+       </tr>
+       {% empty %}
                 <li>No topics have been added yet.</li>
-       {% endfor %}
-  </ul>
-  <h3><a href="{% url 'learning_logs:new_topic' %}">Add new topic</h3>
+    {% endfor %}
+  </tbody>
+</table>
 
+  {% buttons %}
+  <h3><a href="{% url 'learning_logs:new_topic' %}"class="btn btn-primary" role = 'button'>{% bootstrap_icon "pushpin" %} New Sport</a></h3>
+  {% endbuttons %}
+
+<script type="text/javascript">
+  var deleteLinks = document.querySelectorAll('.delete');
+
+for (var i = 0; i < deleteLinks.length; i++) {
+  deleteLinks[i].addEventListener('click', function(event) {
+      event.preventDefault();
+
+      var choice = confirm(this.getAttribute('data-confirm'));
+
+      if (choice) {
+        window.location.href = this.getAttribute('href');
+      }
+  });
+}
+</script>
 
 {% endblock content %}
