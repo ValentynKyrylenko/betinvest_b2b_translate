@@ -22,7 +22,7 @@ def index(request):
 @login_required
 def topics(request):
     # Show only the topics created by user
-     #topics = Topic.objects.annotate(n_ent=Count('entry')).filter(owner=request.user).order_by('text')
+    #topics = Topic.objects.annotate(n_ent=Count('entry')).filter(owner=request.user).order_by('text')
     topics = Topic.objects.annotate(n_ent=Count('entry')).order_by('text')
     # topics = Topic.objects.order_by('date_added')
     # Total number of entries
@@ -36,8 +36,8 @@ def topic(request, topic_id):
     '''Show one topic'''
     topic = Topic.objects.get(id=topic_id)
     # Make sure the topic belongs to the current user.
-    if topic.owner != request.user:
-        raise Http404
+    #if topic.owner != request.user:
+        #raise Http404
     entries = topic.entry_set.order_by('-date_added')
     context = {'topic': topic, 'entries': entries}
     return render(request, 'learning_logs/topic.html', context)
@@ -87,8 +87,8 @@ def edit_entry(request, entry_id):
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic
     # check for user
-    if topic.owner != request.user:
-        raise Http404
+    #if topic.owner != request.user:
+        #raise Http404
     if request.method != 'POST':
         # Initial request; pre-fill form with the current entry.
         form = EntryForm(instance=entry)
