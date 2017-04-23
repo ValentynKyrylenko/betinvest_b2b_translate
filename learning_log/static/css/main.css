@@ -1,0 +1,19 @@
+{% load static %}
+
+.red {
+color: grey;
+}
+
+a.red:hover {
+    color: red;
+}
+
+
+.jumbotron{
+    background: url("/static/images/banner_BI.jpg") no-repeat center center;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    height: 230px
+}
