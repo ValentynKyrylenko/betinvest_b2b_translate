@@ -134,6 +134,10 @@ BOOTSTRAP3 = {
     'include_jquery': True,
 }
 
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 # Heroku settings
 if os.getcwd() == '/app':
     import dj_database_url
@@ -149,8 +153,3 @@ if os.getcwd() == '/app':
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     STATIC_ROOT = 'staticfiles'
     STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-
-    # Simplified static file serving.
-    # https://warehouse.python.org/project/whitenoise/
-
-   STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
