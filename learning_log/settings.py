@@ -26,7 +26,7 @@ SECRET_KEY = 'xv1+6up!tco0i#1)+*92($foo3$3s++et%1wcyrc5%p@m8w&j%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['betinvestb2b.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
