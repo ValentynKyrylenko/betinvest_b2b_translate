@@ -134,19 +134,12 @@ BOOTSTRAP3 = {
     'include_jquery': True,
 }
 
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
 # Heroku settings
 if os.getcwd() == '/app':
     import dj_database_url
     DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
     # Honor the 'X-Forwarded-Proto' header for request.is_secure().
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    # Allow only Heroku to host the project.
-    ALLOWED_HOSTS = ['learning-log.herokuapp.com']
-    DEBUG = False
     # Allow all host headers.
     ALLOWED_HOSTS = ['*']
     # Static asset configuration
