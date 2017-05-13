@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'learning_logs',
     # Users
     'users',
+    # Contacts
+    'contacts',
     # Third party apps
     'bootstrap3',
 ]
