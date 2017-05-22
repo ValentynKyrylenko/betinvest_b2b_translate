@@ -1,0 +1,16 @@
+{% extends "learning_logs/base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+  <p><a href="{% url 'contacts:contact' contact.id %}">{{ contact }}</a></p>
+  <p>View or Edit Contact:</p>
+  <form action="{% url 'contacts:edit_contact' contact.id %}" method='post'>
+   {% csrf_token %}
+   {% bootstrap_form form %}
+   {% buttons %}
+   <button name="submit" class="btn btn-primary">save changes</button>
+   {% endbuttons %}
+  </form>
+{% endblock content %}
+
+

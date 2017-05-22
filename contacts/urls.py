@@ -26,5 +26,8 @@ urlpatterns = [
     url(r'^delete_contact/(?P<contact_id>\d+)/$', views.delete_contact, name='delete_contact'),
 
     # Display all contacts in a table
-    url(r'^contacts_table/$', ContactsTableView.as_view()),
+    url(r'^contacts_table/$', ContactsTableView.as_view(), name='contacts_table'),
+
+    # Editinng contact
+    url(r'^edit_contact/(?P<record_id>\d+)/$', views.edit_contact, name='edit_contact'),
 ]

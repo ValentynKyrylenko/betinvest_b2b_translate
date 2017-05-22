@@ -7,11 +7,19 @@ import django_tables2 as tables
 import django_filters
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.bootstrap import FormActions
+from crispy_forms.bootstrap import InlineCheckboxes
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit
 
 
 from django.http import HttpResponse
+
+from multiselectfield import MultiSelectField
+PRODUCT_CHOICES = (
+    ('SportsBook Live', 'SportsBook Live'),
+    ('SportsBook Prematch', 'SportsBook Prematch'),
+    ('WhiteLabel', 'WhiteLabel'),
+    ('LandBased', 'LandBased'),
+)
 
 
 # Create your models here.
@@ -26,7 +34,7 @@ class Customer(models.Model):
     email = models.EmailField(blank=True, null=True, verbose_name='E-mail')
     skype = models.CharField(max_length=30, blank=True)
     phone = models.CharField(max_length=50, blank=True)
-    product = models.CharField(max_length=50, blank=True)
+    product = MultiSelectField(choices=PRODUCT_CHOICES)
     created_on = models.DateTimeField(auto_now_add=True)
     notes = models.CharField(max_length=300, blank=True)
     exibition = models.CharField(max_length=50, blank=True, verbose_name='Met on...')
@@ -35,7 +43,7 @@ class Customer(models.Model):
     account_manager = models.ForeignKey(User)
 
     def __str__(self):
-        return u'%s %s' % (self.company_name, self.person_name)
+        return u'%s  %s' % (self.company_name, self.person_name)
 
     class Meta:
         verbose_name_plural = 'customers'
@@ -54,7 +62,7 @@ class Comment(models.Model):
 
 
 class ContactsTable(tables.Table):
-    edit_entries = tables.TemplateColumn('<a href="/contact/{{record.id}}">Edit</a>')
+    edit_entries = tables.TemplateColumn('<a href="/edit_contact/{{record.id}}">Edit</a>')
 
     class Meta:
         model = Customer
@@ -77,7 +85,11 @@ class ContactsTable(tables.Table):
 
 
 class ContactsFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(lookup_expr='iexact')
+    business_type = django_filters.CharFilter(lookup_expr='icontains')
+    company_name = django_filters.CharFilter(lookup_expr='icontains')
+    person_name = django_filters.CharFilter(lookup_expr='icontains')
+    product = django_filters.CharFilter(lookup_expr='icontains')
+    exibition = django_filters.CharFilter(lookup_expr='icontains')
 
     class Meta:
         model = Customer

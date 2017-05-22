@@ -4,7 +4,68 @@
 
 
 {% block header %}
-<h3>The details of the : {{ contact }}</h3>
+
+
+<h3>{{contact}}</h3>
+<table class="table table-striped">
+    <tbody>
+
+    <tr>
+             <th>This contact is:</th>
+             <td>{{contact.business_type}}</td>
+    </tr>
+    <tr>
+             <th>The full name of the contact person is:</th>
+             <td>{{contact.person_name}}</td>
+    </tr>
+    <tr>
+            <th>The legal name of the company is:</th>
+             <td>{{contact.company_name}}</td>
+    </tr>
+    <tr>
+            <th>The official website is:</th>
+             <td>{{contact.website}}</td>
+    </tr>
+    <tr>
+            <th>Contact email is:</th>
+             <td>{{contact.email}}</td>
+    </tr>
+    <tr>
+            <th>The skype is:</th>
+             <td>{{contact.skype}}</td>
+    </tr>
+    <tr>
+            <th>Contact mobile phone is:</th>
+             <td>{{contact.phone}}</td>
+    </tr>
+    <tr>
+            <th>The company is interested in:</th>
+             <td>{{contact.product}}</td>
+    </tr>
+    <tr>
+            <th>Notes:</th>
+             <td>{{contact.notes}}</td>
+    </tr>
+    <tr>
+            <th>The contact was met at:</th>
+             <td>{{contact.exibition}}</td>
+    </tr>
+    <tr>
+            <th>Date of contact:</th>
+             <td>{{contact.contacted_on}}</td>
+    </tr>
+    <tr>
+            <th>The contact should be contacted at: </th>
+             <td>{{contact.action_date}}</td>
+    </tr>
+    <tr>
+            <th>Account manager is:</th>
+             <td>{{contact.account_manager}}</td>
+    </tr>
+
+    </tbody>
+</table>
+
 {% endblock header %}
 
 

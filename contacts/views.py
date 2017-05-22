@@ -50,9 +50,29 @@ def new_contact(request):
             new_customer = form.save(commit=False)
             new_customer.save()
             # unction determines the URL from a named URL pattern
-            return HttpResponseRedirect(reverse('contacts:contacts'))
+            return HttpResponseRedirect(reverse('contacts:contacts_table'))
     context = {'form': form}
     return render(request, 'contacts/new_contact.html', context)
+
+# Edit or view the comment
+
+
+@login_required
+def edit_contact(request, record_id):
+    """Edit an existing comment."""
+    contact = Customer.objects.get(id=record_id)
+    if request.method != 'POST':
+        # Initial request; pre-fill form with the current entry.
+        form = CustomerForm(instance=contact)
+    else:
+        # POST data submitted; process data.
+        form = CustomerForm(instance=contact, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('contacts:contact',
+                                                args=[contact.id]))
+    context = {'contact': contact, 'form': form}
+    return render(request, 'contacts/edit_contact.html', context)
 
 
 @login_required
@@ -137,6 +157,6 @@ class ContactsTableView(PagedFilteredTableView):
     model = Customer
     table_class = ContactsTable
     template_name = 'contacts/contacts_table.html'
-    paginate_by = 5
+    paginate_by = 8
     filter_class = ContactsFilter
     formhelper_class = ContactsFilterFormHelper

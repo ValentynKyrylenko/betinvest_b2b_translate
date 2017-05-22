@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'django_filters',
     #'uni_form',
     'crispy_forms',
+    # multiple_choice
+    'multiselectfield',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
