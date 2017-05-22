@@ -1,0 +1,57 @@
+{% extends 'learning_logs/base.html' %}
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+
+{% block header %}
+<h3>The details of the : {{ contact }}</h3>
+{% endblock header %}
+
+
+{% block content %}
+  <p>
+    {% buttons %}
+    <a href="{% url 'contacts:new_comment' contact.id %}" class="btn btn-primary" role = 'button'>{% bootstrap_icon "pushpin" %} add comment for this contact</a>
+    {% endbuttons %}
+  </p>
+  {% for comment in comments %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4>Added: {{ comment.createdOn|date:'M d, Y H:i' }}</h4>
+      {% buttons %}
+            <a href="{% url 'contacts:edit_comment' comment.id %}" class="btn btn-success" role = 'button'>{% bootstrap_icon "pencil" %} edit comment </a>
+            <a href="{% url 'contacts:delete_comment' comment.id %}" class="btn btn-danger delete" role = 'button' data-confirm="Are you sure to delete this comment?" >{% bootstrap_icon "remove" %} delete comment </a>
+      {% endbuttons %}
+
+    </div>
+      <div class="panel-body">
+          {{ comment.comment|linebreaks }}
+      </div>
+    </div> <!-- panel -->
+
+    {% empty %}
+    There are no more comments for this Contact yet.
+
+
+
+  {% endfor %}
+
+
+
+<script type="text/javascript">
+  var deleteLinks = document.querySelectorAll('.delete');
+
+for (var i = 0; i < deleteLinks.length; i++) {
+  deleteLinks[i].addEventListener('click', function(event) {
+      event.preventDefault();
+
+      var choice = confirm(this.getAttribute('data-confirm'));
+
+      if (choice) {
+        window.location.href = this.getAttribute('href');
+      }
+  });
+}
+</script>
+
+{% endblock content %}

@@ -14,7 +14,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ('createdOn',)
     date_hierarchy = 'createdOn'
     ordering = ('-createdOn',)
-    raw_id_fields = ('customer')
+    raw_id_fields = ['customer']
 
 
 admin.site.register(Customer, CustomerAdmin)

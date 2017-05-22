@@ -49,7 +49,14 @@ INSTALLED_APPS = [
     'contacts',
     # Third party apps
     'bootstrap3',
+    'django_countries',
+    'django_tables2',
+    'django_filters',
+    #'uni_form',
+    'crispy_forms',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,6 +82,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
+
             ],
         },
     },

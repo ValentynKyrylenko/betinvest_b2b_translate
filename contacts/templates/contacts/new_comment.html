@@ -1,0 +1,14 @@
+{% extends "learning_logs/base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
+  <p><a href="{% url 'contacts:contact' contact.id %}">{{ contact }}</a></p>
+  <p>Add a new comment to the contact: {{ contact }}</p>
+  <form action="{% url 'contacts:new_comment' contact.id %}" method='post' class="form">
+       {% csrf_token %}
+       {% bootstrap_form form %}
+        {% buttons %}
+       <button name='submit' class="btn btn-primary">{% bootstrap_icon "pushpin" %} add comment</button>
+       {% endbuttons %}
+     </form>
+{% endblock content %}

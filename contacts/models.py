@@ -1,23 +1,36 @@
 from django.db import models
+from django_countries.fields import CountryField
 from django.contrib.auth.models import User
+
+import django_tables2 as tables
+
+import django_filters
+
+from crispy_forms.helper import FormHelper
+from crispy_forms.bootstrap import FormActions
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit
+
+
+from django.http import HttpResponse
+
 
 # Create your models here.
 
 
 class Customer(models.Model):
     business_type = models.CharField(max_length=80, verbose_name='Type of the contact')
-    person_name = models.CharField(max_length=80, verbose_name='Name and Surname of the Person')
-    company_name = models.CharField(max_length=80, blank=True, verbose_name='Legal Company name')
-    website = models.URLField(blank=True, verbose_name='Official WWW')
-    country = models.CharField(max_length=80, verbose_name='Country of registering')
-    email = models.EmailField(blank=True, null=True, verbose_name='E-mail address')
+    person_name = models.CharField(max_length=80, verbose_name='Name and Surname')
+    company_name = models.CharField(max_length=80, blank=True, verbose_name='Company')
+    website = models.URLField(blank=True, verbose_name='WWW')
+    country = CountryField()
+    email = models.EmailField(blank=True, null=True, verbose_name='E-mail')
     skype = models.CharField(max_length=30, blank=True)
     phone = models.CharField(max_length=50, blank=True)
     product = models.CharField(max_length=50, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     notes = models.CharField(max_length=300, blank=True)
     exibition = models.CharField(max_length=50, blank=True, verbose_name='Met on...')
-    contacted_on = models.DateField(blank=True, null=True, verbose_name='Date of last contact')
+    contacted_on = models.DateField(blank=True, null=True, verbose_name='Last contact')
     action_date = models.DateField(blank=True, null=True)
     account_manager = models.ForeignKey(User)
 
@@ -38,3 +51,47 @@ class Comment(models.Model):
     class Meta:
         verbose_name_plural = 'comments'
         ordering = ['createdOn']
+
+
+class ContactsTable(tables.Table):
+    edit_entries = tables.TemplateColumn('<a href="/contact/{{record.id}}">Edit</a>')
+
+    class Meta:
+        model = Customer
+        # add class="paleblue" to <table> tag
+        attrs = {'class': 'paleblue'}
+        fields = (
+            'id',
+            'business_type',
+            'person_name',
+            'company_name',
+            'email',
+            'skype',
+            'phone',
+            'product',
+            'notes',
+            'exibition',
+            'contacted_on',
+            'action_date',
+        )
+
+
+class ContactsFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr='iexact')
+
+    class Meta:
+        model = Customer
+        fields = ['business_type', 'company_name', 'person_name', 'product', 'exibition']
+
+
+class ContactsFilterFormHelper(FormHelper):
+    form_method = 'GET'
+    form_class = 'form-inline'
+    layout = Layout(
+        'business_type',
+        'company_name',
+        'person_name',
+        'product',
+        'exibition',
+        Submit('submit', 'Apply Filter', css_class='btn btn-secondary btn-sm'),
+    )

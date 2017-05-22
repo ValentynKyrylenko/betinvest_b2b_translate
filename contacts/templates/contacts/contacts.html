@@ -1,0 +1,54 @@
+{% extends "learning_logs/base.html" %}
+{% load bootstrap3 %}
+{% block header %}
+  <h3>List of all Contacts</h3>
+{% endblock header %}
+
+{% block content %}
+
+
+<table class="table-condensed">
+  <tbody>
+    {% for contact in contacts %}
+       <tr>
+         <td>
+               <a href="{% url 'contacts:contact' contact.id %}">{{ contact }}</a>
+         </td>
+
+                 <td>
+                        <a style="color: red" href="{% url 'contacts:delete_contact' contact.id%}" class="red delete" data-confirm="You are going to delete a Type of Sport! Continue?">{% bootstrap_icon "remove" %} </a>
+                 </td>
+
+                 <td>
+                        <a style="color: green" href="{% url 'contacts:delete_contact' contact.id%}" class="red delete" data-confirm="You are going to delete a Type of Sport! Continue?">{% bootstrap_icon "glyphicon glyphicon-info-sign" %} </a>
+                 </td>
+
+       </tr>
+       {% empty %}
+                <li>No contacts have been added yet.</li>
+    {% endfor %}
+  </tbody>
+</table>
+
+        {% buttons %}
+         <h3><a href="{% url 'contacts:new_contact' %}"class="btn btn-primary" role = 'button'>{% bootstrap_icon "pushpin" %} New Contact</a></h3>
+        {% endbuttons %}
+
+
+<script type="text/javascript">
+  var deleteLinks = document.querySelectorAll('.delete');
+
+for (var i = 0; i < deleteLinks.length; i++) {
+  deleteLinks[i].addEventListener('click', function(event) {
+      event.preventDefault();
+
+      var choice = confirm(this.getAttribute('data-confirm'));
+
+      if (choice) {
+        window.location.href = this.getAttribute('href');
+      }
+  });
+}
+</script>
+
+{% endblock content %}
