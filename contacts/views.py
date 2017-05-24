@@ -20,6 +20,9 @@ from .models import ContactsTable, ContactsFilter, ContactsFilterFormHelper
 # Pagination
 from django.core.paginator import Paginator
 
+# Permission
+from django.contrib.auth.decorators import permission_required
+
 
 @login_required
 def contacts(request):
@@ -37,7 +40,7 @@ def contact(request, contact_id):
     return render(request, 'contacts/contact.html', context)
 
 
-#@login_required
+@login_required
 def new_contact(request):
     """Add a new contact."""
     if request.method != 'POST':
@@ -57,7 +60,8 @@ def new_contact(request):
 # Edit or view the comment
 
 
-@login_required
+#@login_required
+@permission_required('contacts.change_customer')
 def edit_contact(request, record_id):
     """Edit an existing comment."""
     contact = Customer.objects.get(id=record_id)
@@ -123,12 +127,13 @@ def delete_comment(request, comment_id):
     return HttpResponseRedirect(reverse('contacts:contact', args=[contact.id]))
 
 
-@login_required
+#@login_required
+@permission_required('contacts.delete_customer')
 def delete_contact(request, contact_id):
    # delete an object and send a confirmation response
     item = Customer.objects.get(id=contact_id)
     item.delete()
-    return HttpResponseRedirect(reverse('contacts:contacts'))
+    return HttpResponseRedirect(reverse('contacts:contacts_table'))
 
 
 class PagedFilteredTableView(SingleTableView):
@@ -141,11 +146,6 @@ class PagedFilteredTableView(SingleTableView):
         self.filter = self.filter_class(self.request.GET, queryset=qs)
         self.filter.form.helper = self.formhelper_class()
         return self.filter.qs
-
-    # def get_table(self, **kwargs):
-        #table = super(PagedFilteredTableView, self).get_table()
-        #RequestConfig(self.request, paginate={'per_page': 5}).configure(table)
-        # return table
 
     def get_context_data(self, **kwargs):
         context = super(PagedFilteredTableView, self).get_context_data()

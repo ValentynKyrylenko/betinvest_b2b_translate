@@ -28,8 +28,8 @@ PRODUCT_CHOICES = (
 class Customer(models.Model):
     business_type = models.CharField(max_length=80, verbose_name='Type of the contact')
     person_name = models.CharField(max_length=80, verbose_name='Name and Surname')
-    company_name = models.CharField(max_length=80, blank=True, verbose_name='Company')
-    website = models.URLField(blank=True, verbose_name='WWW')
+    company_name = models.CharField(max_length=80, blank=True, unique=True, verbose_name='Company')
+    website = models.URLField(blank=True, unique=True, verbose_name='WWW')
     country = CountryField()
     email = models.EmailField(blank=True, null=True, verbose_name='E-mail')
     skype = models.CharField(max_length=30, blank=True)
@@ -62,7 +62,8 @@ class Comment(models.Model):
 
 
 class ContactsTable(tables.Table):
-    edit_entries = tables.TemplateColumn('<a href="/edit_contact/{{record.id}}">Edit</a>')
+    view = tables.TemplateColumn('<a href="/contact/{{record.id}}"><span class="glyphicon glyphicon-user"></span></a>')
+    edit = tables.TemplateColumn('<a href="/edit_contact/{{record.id}}"><span class="glyphicon glyphicon-pencil"></a>')
 
     class Meta:
         model = Customer

@@ -2,7 +2,7 @@
 {% load bootstrap3 %}
 
 {% block content %}
-  <p><a href="{% url 'contacts:contact' contact.id %}">{{ contact }}</a></p>
+  <h3><a href="{% url 'contacts:contact' contact.id %}">{{ contact }}</a></h3>
   <p>View or Edit Contact:</p>
   <form action="{% url 'contacts:edit_contact' contact.id %}" method='post'>
    {% csrf_token %}

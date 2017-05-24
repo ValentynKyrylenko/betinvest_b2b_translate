@@ -19,9 +19,7 @@
                         <a style="color: red" href="{% url 'contacts:delete_contact' contact.id%}" class="red delete" data-confirm="You are going to delete a Type of Sport! Continue?">{% bootstrap_icon "remove" %} </a>
                  </td>
 
-                 <td>
-                        <a style="color: green" href="{% url 'contacts:delete_contact' contact.id%}" class="red delete" data-confirm="You are going to delete a Type of Sport! Continue?">{% bootstrap_icon "glyphicon glyphicon-info-sign" %} </a>
-                 </td>
+
 
        </tr>
        {% empty %}

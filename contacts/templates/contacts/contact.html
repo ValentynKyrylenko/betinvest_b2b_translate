@@ -7,6 +7,15 @@
 
 
 <h3>{{contact}}</h3>
+<p>You can edit this contact:
+        <a href="{% url 'contacts:edit_contact' contact.id %}" class="btn btn-default btn-sm">
+          <span class="glyphicon glyphicon-pencil"></span> Edit
+        </a>
+        You can delete this contact:
+        <a href="{% url 'contacts:delete_contact' contact.id%}" class="btn btn-danger btn-sm delete" data-confirm="You are going to delete a Type of Sport! Continue?">
+          <span class="glyphicon glyphicon-pencil"></span> Delete
+        </a>
+      </p>
 <table class="table table-striped">
     <tbody>
 
