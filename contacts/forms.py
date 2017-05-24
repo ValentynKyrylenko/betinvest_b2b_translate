@@ -4,6 +4,7 @@ from django_countries.widgets import CountrySelectWidget
 from .models import Customer, Comment
 
 YEAR_CHOICES = ('2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020')
+
 PRODUCT_CHOICES = (
     ('SportsBook Live', 'SportsBook Live'),
     ('SportsBook Prematch', 'SportsBook Prematch'),
