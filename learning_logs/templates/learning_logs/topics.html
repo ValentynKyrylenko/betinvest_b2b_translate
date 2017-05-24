@@ -17,22 +17,22 @@
                     <small><span class="label label-danger">{{ topic.n_ent}}</span></small>
                 {% endif %}
           </td>
-             {% if user.username == 'Booker' %}
+
                  <td>
                         <small><a href="{% url 'learning_logs:delete_topic' topic.id%}" class="red delete" data-confirm="You are going to delete a Type of Sport! Continue?">{% bootstrap_icon "remove" %} </a></small>
                  </td>
-            {% endif %}
+
        </tr>
        {% empty %}
                 <li>No topics have been added yet.</li>
     {% endfor %}
   </tbody>
 </table>
-{% if user.username == 'Booker' %}
+
         {% buttons %}
         <h3><a href="{% url 'learning_logs:new_topic' %}"class="btn btn-primary" role = 'button'>{% bootstrap_icon "pushpin" %} New Sport</a></h3>
         {% endbuttons %}
-{% endif %}
+
 
 <script type="text/javascript">
   var deleteLinks = document.querySelectorAll('.delete');
