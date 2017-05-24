@@ -51,7 +51,7 @@ class Customer(models.Model):
 
 
 class Comment(models.Model):
-    comment = models.CharField(max_length=300)
+    comment = models.CharField(max_length=3000)
     posted_by = models.ForeignKey(User)
     customer = models.ForeignKey(Customer)
     createdOn = models.DateTimeField(auto_now_add=True)
