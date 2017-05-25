@@ -19,6 +19,7 @@ PRODUCT_CHOICES = (
     ('SportsBook Prematch', 'SportsBook Prematch'),
     ('WhiteLabel', 'WhiteLabel'),
     ('LandBased', 'LandBased'),
+    ('Other', 'Other'),
 )
 
 
