@@ -105,7 +105,7 @@ def new_entry(request, topic_id):
     return render(request, 'learning_logs/new_entry.html', context)
 
 
-@login_required
+@permission_required('learning_logs.change_entry')
 def edit_entry(request, entry_id):
     """Edit an existing entry."""
     entry = Entry.objects.get(id=entry_id)
@@ -127,7 +127,7 @@ def edit_entry(request, entry_id):
     return render(request, 'learning_logs/edit_entry.html', context)
 
 
-@login_required
+@permission_required('learning_logs.delete_entry')
 def delete_entry(request, delete_id):
    # delete an object and send a confirmation response
     item = Entry.objects.get(id=delete_id)
@@ -136,7 +136,7 @@ def delete_entry(request, delete_id):
     return HttpResponseRedirect(reverse('learning_logs:topic', args=[topic.id]))
 
 
-@login_required
+@permission_required('learning_logs.delete_topic')
 def delete_topic(request, delete_id):
    # delete an object and send a confirmation response
     item = Topic.objects.get(id=delete_id)
