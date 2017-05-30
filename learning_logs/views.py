@@ -11,6 +11,15 @@ from .forms import EntryForm
 # Counting objects
 from django.db.models import Count
 
+# Tables
+from django_tables2 import RequestConfig
+from django.views.generic import TemplateView
+from django_tables2 import SingleTableView
+from .models import TopicTable, TopicFilter, TopicFilterFormHelper
+
+# Permission
+from django.contrib.auth.decorators import permission_required
+
 
 def index(request):
     '''Home page for learning_log'''
@@ -21,11 +30,7 @@ def index(request):
 
 @login_required
 def topics(request):
-    # Show only the topics created by user
-    #topics = Topic.objects.annotate(n_ent=Count('entry')).filter(owner=request.user).order_by('text')
-    topics = Topic.objects.annotate(n_ent=Count('entry')).order_by('text')
-    # topics = Topic.objects.order_by('date_added')
-    # Total number of entries
+    topics = Topic.objects.annotate(n_ent=Count('entry'))
     total_entries = Entry.objects.count()
     context = {'topics': topics, 'total_entries': total_entries}
     return render(request, 'learning_logs/topics.html', context)
@@ -36,8 +41,8 @@ def topic(request, topic_id):
     '''Show one topic'''
     topic = Topic.objects.get(id=topic_id)
     # Make sure the topic belongs to the current user.
-    #if topic.owner != request.user:
-        #raise Http404
+    # if topic.owner != request.user:
+    #raise Http404
     entries = topic.entry_set.order_by('-date_added')
     context = {'topic': topic, 'entries': entries}
     return render(request, 'learning_logs/topic.html', context)
@@ -57,9 +62,28 @@ def new_topic(request):
             new_topic.owner = request.user
             new_topic.save()
             # unction determines the URL from a named URL pattern
-            return HttpResponseRedirect(reverse('learning_logs:topics'))
+            return HttpResponseRedirect(reverse('learning_logs:topics_table'))
     context = {'form': form}
     return render(request, 'learning_logs/new_topic.html', context)
+
+
+#@login_required
+@permission_required('learning_logs.change_topic')
+def edit_topic(request, record_id):
+    """Edit an existing topic."""
+    topic = Topic.objects.get(id=record_id)
+    if request.method != 'POST':
+        # Initial request; pre-fill form with the current entry.
+        form = TopicForm(instance=topic)
+    else:
+        # POST data submitted; process data.
+        form = TopicForm(instance=topic, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('learning_logs:topic',
+                                                args=[topic.id]))
+    context = {'topic': topic, 'form': form}
+    return render(request, 'learning_logs/edit_topic.html', context)
 
 
 @login_required
@@ -87,8 +111,8 @@ def edit_entry(request, entry_id):
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic
     # check for user
-    #if topic.owner != request.user:
-        #raise Http404
+    # if topic.owner != request.user:
+    #raise Http404
     if request.method != 'POST':
         # Initial request; pre-fill form with the current entry.
         form = EntryForm(instance=entry)
@@ -118,4 +142,32 @@ def delete_topic(request, delete_id):
     item = Topic.objects.get(id=delete_id)
     item.delete()
 
-    return HttpResponseRedirect(reverse('learning_logs:topics'))
+    return HttpResponseRedirect(reverse('learning_logs:topics_table'))
+
+# Tables--------------------------------------------------------------------------
+
+
+class PagedFilteredTableView(SingleTableView):
+    filter_class = None
+    formhelper_class = None
+    context_filter_name = 'filter'
+
+    def get_queryset(self, **kwargs):
+        qs = super(PagedFilteredTableView, self).get_queryset()
+        self.filter = self.filter_class(self.request.GET, queryset=qs)
+        self.filter.form.helper = self.formhelper_class()
+        return self.filter.qs
+
+    def get_context_data(self, **kwargs):
+        context = super(PagedFilteredTableView, self).get_context_data()
+        context[self.context_filter_name] = self.filter
+        return context
+
+
+class TopicsTableView(PagedFilteredTableView):
+    model = Topic
+    table_class = TopicTable
+    template_name = 'learning_logs/topics_table.html'
+    paginate_by = 8
+    filter_class = TopicFilter
+    formhelper_class = TopicFilterFormHelper

@@ -22,6 +22,8 @@ PRODUCT_CHOICES = (
     ('Other', 'Other'),
 )
 
+from django_tables2.utils import A
+
 
 # Create your models here.
 
@@ -63,8 +65,10 @@ class Comment(models.Model):
 
 
 class ContactsTable(tables.Table):
-    view = tables.TemplateColumn('<a href="/contact/{{record.id}}"><span class="glyphicon glyphicon-user"></span></a>')
-    edit = tables.TemplateColumn('<a href="/edit_contact/{{record.id}}"><span class="glyphicon glyphicon-pencil"></a>')
+    person_name = tables.LinkColumn('contacts:contact', args=[A('pk')])
+
+    #view = tables.TemplateColumn('<a href="/contact/{{record.id}}"><span class="glyphicon glyphicon-user"></span></a>')
+    #edit = tables.TemplateColumn('<a href="/edit_contact/{{record.id}}"><span class="glyphicon glyphicon-pencil"></a>')
 
     class Meta:
         model = Customer
@@ -72,8 +76,8 @@ class ContactsTable(tables.Table):
         attrs = {'class': 'paleblue'}
         fields = (
             'id',
-            'business_type',
             'person_name',
+            'business_type',
             'company_name',
             'email',
             'skype',

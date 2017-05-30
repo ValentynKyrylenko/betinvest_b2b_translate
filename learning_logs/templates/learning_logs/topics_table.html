@@ -1,0 +1,25 @@
+{% extends "learning_logs/base.html" %}
+{% load render_table from django_tables2 %}
+{% load django_tables2 crispy_forms_tags %}
+
+
+{% load bootstrap3 %}
+
+{% load static %}
+
+{% block header %}
+<h3>Table of available events</h3>
+        {% buttons %}
+         <h3><a href="{% url 'learning_logs:new_topic' %}"class="btn btn-primary" role = 'button'>{% bootstrap_icon "pushpin" %} New Event</a></h3>
+        {% endbuttons %}
+{% endblock header %}
+
+
+{% block content %}
+{% crispy filter.form filter.form.helper %}
+</br>
+{% render_table table %}
+
+
+{% endblock content %}
+

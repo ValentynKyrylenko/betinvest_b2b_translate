@@ -4,38 +4,95 @@
 
 
 {% block header %}
-<h3>Sport: {{ topic }}</h3>
+
+<div class="well">
+<p>You can edit this record:
+        <a href="{% url 'learning_logs:edit_topic' topic.id %}" class="btn btn-default btn-sm">
+          <span class="glyphicon glyphicon-pencil"></span> Edit
+        </a>
+        You can delete this record:
+        <a href="{% url 'learning_logs:delete_topic' topic.id%}" class="btn btn-danger btn-sm delete" data-confirm="You are going to delete a RECORD! Continue?">
+          <span class="glyphicon glyphicon-pencil"></span> Delete
+        </a>
+    </p>
+</div>
+<table class="table table-striped">
+    <tbody>
+    <thead>
+            <tr>
+              <th>Sport: (Спотр)</th>
+              <th>Type of competition: (Тип соревнования)</th>
+              <th>Association if any: (Ассоциация)</th>
+              <th>League: (Лига)</th>
+              <th>Devision: (Девизион)</th>
+              <th>Gender: (Пол)</th>
+              <th>Country: (Страна)</th>
+              <th>Region if any: (Регион)</th>
+            </tr>
+          </thead>
+
+    <tr>
+
+             <td>{{topic.sport}}</td>
+
+             <td>{{topic.event}}</td>
+
+             <td>{{topic.asoc}}</td>
+
+             <td>{{topic.league}}</td>
+
+             <td>{{topic.devision}}</td>
+
+             <td>{{topic.gender}}</td>
+
+             <td>{{topic.country}}</td>
+
+             <td>{{topic.region}}</td>
+    </tr>
+
+
+
+    </tbody>
+</table>
+
 {% endblock header %}
 
 
 {% block content %}
   <p>
     {% buttons %}
-    <a href="{% url 'learning_logs:new_entry' topic.id %}" class="btn btn-primary" role = 'button'>{% bootstrap_icon "pushpin" %} add entry</a>
+    <a href="{% url 'learning_logs:new_entry' topic.id %}" class="btn btn-primary" role = 'button'>{% bootstrap_icon "pushpin" %} add new WWW for this record</a>
     {% endbuttons %}
   </p>
+
+
+
+    <!--Table-->
+    <table class="table table-striped">
+    <tbody>
+            <thead>
+            <tr>
+              <th>Url Link</th>
+              <th>Click</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
   {% for entry in entries %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4>Added: {{ entry.date_added|date:'M d, Y H:i' }}</h4>
-      {% buttons %}
-            <a href="{% url 'learning_logs:edit_entry' entry.id %}" class="btn btn-success" role = 'button'>{% bootstrap_icon "pencil" %} edit entry </a>
-            <a href="{% url 'learning_logs:delete_entry' entry.id %}" class="btn btn-danger delete" role = 'button' data-confirm="Are you sure to delete this item?" >{% bootstrap_icon "remove" %} delete entry </a>
-      {% endbuttons %}
+         <tr>
+             <td>{{entry.text}}</td>
 
-    </div>
-      <div class="panel-body">
+             <td><a href="{{entry.text}}" target="_blank">VISIT</a></td>
 
-        {{ entry.text|linebreaks }}
-      </div>
-    </div> <!-- panel -->
+             <td><a href="{% url 'learning_logs:edit_entry' entry.id %}" class="btn btn-success" role = 'button'>{% bootstrap_icon "pencil" %} edit URL </a></td>
 
-    {% empty %}
-    There are no entries for this topic yet.
-
-
-
+             <td><a href="{% url 'learning_logs:delete_entry' entry.id %}" class="btn btn-danger delete" role = 'button' data-confirm="Are you sure to delete this URL?" >{% bootstrap_icon "remove" %} delete URL </a></td>
+         </tr>
+  {% empty %}
+      There are no more URLs for this Record yet.
   {% endfor %}
+    </tbody>
+    </table>
 
 
 

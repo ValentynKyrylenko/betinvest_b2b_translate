@@ -1,6 +1,9 @@
 """Defines URL patterns for learning_logs."""
 from django.conf.urls import url
 from . import views
+from django.contrib.auth.decorators import login_required
+
+from learning_logs.views import TopicsTableView
 
 urlpatterns = [
     # Home view
@@ -19,4 +22,9 @@ urlpatterns = [
     url(r'^delete_entry/(?P<delete_id>\d+)/$', views.delete_entry, name='delete_entry'),
     # Delete Topic
     url(r'^delete_topic/(?P<delete_id>\d+)/$', views.delete_topic, name='delete_topic'),
+    # Display all topics in a table
+    url(r'^topics_table/$', login_required(TopicsTableView.as_view()), name='topics_table'),
+    # Editinng topic
+    url(r'^edit_topic/(?P<record_id>\d+)/$', views.edit_topic, name='edit_topic'),
+
 ]
