@@ -168,6 +168,6 @@ class TopicsTableView(PagedFilteredTableView):
     model = Topic
     table_class = TopicTable
     template_name = 'learning_logs/topics_table.html'
-    paginate_by = 8
+    paginate_by = 40
     filter_class = TopicFilter
     formhelper_class = TopicFilterFormHelper
