@@ -121,5 +121,5 @@ class TopicFilterFormHelper(FormHelper):
             Div('country', css_class='col-sm-6'),
             css_class='row'),
 
-        Div(Div(Submit('submit', 'Apply Filter', css_class='btn btn-secondary'), css_class='col-sm-3 pull-left', style='margin-top: 10px;'), css_class='row')
+        Div(Div(Submit('submit', 'Apply Filter', css_class='btn btn-warning btn-sm'), css_class='col-sm-3 pull-left', style='margin-top: 10px;'), css_class='row')
     )

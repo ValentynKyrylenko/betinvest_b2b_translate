@@ -7,7 +7,7 @@
 
 <div class="well">
 <p>You can edit this record:
-        <a href="{% url 'learning_logs:edit_topic' topic.id %}" class="btn btn-default btn-sm">
+        <a href="{% url 'learning_logs:edit_topic' topic.id %}" class="btn btn-success btn-sm">
           <span class="glyphicon glyphicon-pencil"></span> Edit
         </a>
         You can delete this record:
@@ -21,8 +21,8 @@
     <thead>
             <tr>
               <th>Sport: (Спотр)</th>
-              <th>Type of competition: (Тип соревнования)</th>
-              <th>Association if any: (Ассоциация)</th>
+              <th>Type: (Тип)</th>
+              <th>Association: (Ассоциация)</th>
               <th>League: (Лига)</th>
               <th>Devision: (Девизион)</th>
               <th>Gender: (Пол)</th>
@@ -84,9 +84,9 @@
 
              <td><a href="{{entry.text}}" target="_blank">VISIT</a></td>
 
-             <td><a href="{% url 'learning_logs:edit_entry' entry.id %}" class="btn btn-success" role = 'button'>{% bootstrap_icon "pencil" %} edit URL </a></td>
+             <td><a href="{% url 'learning_logs:edit_entry' entry.id %}" class="btn btn-success btn-sm" role = 'button'>{% bootstrap_icon "pencil" %} edit URL </a></td>
 
-             <td><a href="{% url 'learning_logs:delete_entry' entry.id %}" class="btn btn-danger delete" role = 'button' data-confirm="Are you sure to delete this URL?" >{% bootstrap_icon "remove" %} delete URL </a></td>
+             <td><a href="{% url 'learning_logs:delete_entry' entry.id %}" class="btn btn-danger btn-sm delete" role = 'button' data-confirm="Are you sure to delete this URL?" >{% bootstrap_icon "remove" %} delete URL </a></td>
          </tr>
   {% empty %}
       There are no more URLs for this Record yet.

@@ -111,5 +111,5 @@ class ContactsFilterFormHelper(FormHelper):
         'person_name',
         'product',
         'exibition',
-        Submit('submit', 'Apply Filter', css_class='btn btn-secondary btn-sm'),
+        Submit('submit', 'Apply Filter', css_class='btn btn-warning btn-sm'),
     )
