@@ -84,16 +84,16 @@ class TopicTable(tables.Table):
     class Meta:
         model = Topic
         # add class="paleblue" to <table> tag
-        attrs = {'class': 'paleblue'}
+        attrs = {'class': 'paleblue ', 'id': 'my_table'}
         fields = (
             'id',
             'sport',
+            'country',
             'event',
             'asoc',
             'league',
             'devision',
             'gender',
-            'country',
             'region',
         )
 
