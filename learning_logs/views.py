@@ -19,6 +19,7 @@ from .models import TopicTable, TopicFilter, TopicFilterFormHelper
 
 # Permission
 from django.contrib.auth.decorators import permission_required
+from django.utils.decorators import method_decorator
 
 
 def index(request):
@@ -37,6 +38,7 @@ def topics(request):
 
 
 @login_required
+@permission_required('learning_logs.view_sport')
 def topic(request, topic_id):
     '''Show one topic'''
     topic = Topic.objects.get(id=topic_id)
@@ -164,6 +166,7 @@ class PagedFilteredTableView(SingleTableView):
         return context
 
 
+@method_decorator(permission_required('learning_logs.view_all_sports'), name='dispatch')
 class TopicsTableView(PagedFilteredTableView):
     model = Topic
     table_class = TopicTable

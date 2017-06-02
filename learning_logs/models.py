@@ -51,6 +51,13 @@ class Topic(models.Model):
     man = MaleManager()
     female = FemaleManager()
 
+    class Meta:
+        permissions = (
+            ("view_sport", "Can see individual sport record"),
+            ("view_all_sports", "Can view a table with all sports"),
+        )
+        ordering = ['sport']
+
     def __str__(self):
         return u'Sport is %s | Event is %s | Association is  %s | League is %s | Devision is %s | Gender is %s | Country is %s | Region is %s' % (self.sport, self.event, self.asoc, self.league, self.devision, self.gender, self.country, self.region)
 
@@ -79,6 +86,7 @@ class TopicTable(tables.Table):
         # add class="paleblue" to <table> tag
         attrs = {'class': 'paleblue'}
         fields = (
+            'id',
             'sport',
             'event',
             'asoc',

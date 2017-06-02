@@ -51,6 +51,10 @@ class Customer(models.Model):
     class Meta:
         verbose_name_plural = 'customers'
         ordering = ['company_name']
+        permissions = (
+            ("view_customer", "Can see individual contact"),
+            ("view_all_customers", "Can view a table with all contacts"),
+        )
 
 
 class Comment(models.Model):

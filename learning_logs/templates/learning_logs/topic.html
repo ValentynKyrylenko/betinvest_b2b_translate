@@ -58,6 +58,7 @@
 {% endblock header %}
 
 
+
 {% block content %}
   <p>
     {% buttons %}
@@ -93,7 +94,7 @@
   {% endfor %}
     </tbody>
     </table>
-
+<a href="{% url 'learning_logs:topics_table'%}" class="btn btn-warning btn-sm" role = 'button'>{% bootstrap_icon "list" %} Back to all Sports</a>
 
 
 <script type="text/javascript">

@@ -22,6 +22,7 @@ from django.core.paginator import Paginator
 
 # Permission
 from django.contrib.auth.decorators import permission_required
+from django.utils.decorators import method_decorator
 
 
 @login_required
@@ -32,6 +33,7 @@ def contacts(request):
 
 
 @login_required
+@permission_required('contacts.view_customer')
 def contact(request, contact_id):
     '''Show one topic'''
     contact = Customer.objects.get(id=contact_id)
@@ -41,6 +43,7 @@ def contact(request, contact_id):
 
 
 @login_required
+@permission_required('contacts.add_customer')
 def new_contact(request):
     """Add a new contact."""
     if request.method != 'POST':
@@ -153,6 +156,7 @@ class PagedFilteredTableView(SingleTableView):
         return context
 
 
+@method_decorator(permission_required('contacts.view_all_customers'), name='dispatch')
 class ContactsTableView(PagedFilteredTableView):
     model = Customer
     table_class = ContactsTable
