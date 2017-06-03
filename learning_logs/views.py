@@ -51,6 +51,7 @@ def topic(request, topic_id):
 
 
 @login_required
+@permission_required('learning_logs.add_topic')
 def new_topic(request):
     """Add a new topic."""
     if request.method != 'POST':
